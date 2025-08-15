@@ -112,7 +112,7 @@ async def get_salary_by_employee_and_month(engine: AIOEngine, employee: Employee
     if not employee or not employee.department_id:
         return DEFAULT_SALARY
     
-    # Giả sử bạn đã thêm field 'position' vào Employee
+
     position = getattr(employee, "position", "").lower()
     
     base_salary = DEFAULT_SALARY
@@ -121,7 +121,6 @@ async def get_salary_by_employee_and_month(engine: AIOEngine, employee: Employee
             base_salary = POSITION_SALARY[key]
             break
 
-    # Kiểm tra nếu là trưởng phòng → nhân hệ số 1.5
     department = await engine.find_one(Department, Department.id == employee.department_id)
     if department and department.chief_id == employee.id:
         base_salary *= 1.5
@@ -136,4 +135,5 @@ async def get_salaries_by_employee(engine: AIOEngine, employee_id: str, month: O
 
     return await engine.find(Salary, query)
 async def get_all_salaries(engine: AIOEngine):
+
     return await engine.find(Salary)

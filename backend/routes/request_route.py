@@ -5,7 +5,7 @@ from controllers import request_controller
 from controllers.salary_controller import get_current_employee
 from datetime import datetime,time
 
-from config.db import engine  # Nếu `engine.find()` được sử dụng, bạn cần import engine đúng cách
+from config.db import engine  
 
 router = APIRouter()
 
@@ -45,5 +45,6 @@ async def get_department_requests(
     current_user: Employee = Depends(get_current_employee)
 ):
     return await request_controller.get_department_requests_logic(current_user)
+
 
 

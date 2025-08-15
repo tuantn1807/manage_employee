@@ -30,7 +30,6 @@ async def approve_request_logic(request_id: str, current_user: Employee):
     request.updated_at = datetime.now()
     await engine.save(request)
 
-    # Xoá điểm danh cũ
     day_start = datetime.combine(request.date.date(), time(0, 0))
     day_end = datetime.combine(request.date.date(), time(23, 59, 59))
     old_att = await engine.find(
@@ -43,7 +42,6 @@ async def approve_request_logic(request_id: str, current_user: Employee):
     for att in old_att:
         await engine.delete(att)
 
-    # Ghi điểm danh absent_per
     sessions = []
     if request.session in ["sang", "ca ngay"]:
         sessions.append(time(8, 0))
@@ -92,3 +90,4 @@ async def get_department_requests_logic(current_user: Employee):
     employees = await engine.find(Employee, Employee.department_id == department.id)
     employee_ids = [e.id for e in employees]
     return await engine.find(RequestForm, {"employee_id": {"$in": employee_ids}})
+

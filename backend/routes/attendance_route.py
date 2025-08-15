@@ -13,7 +13,7 @@ from models.request_form import RequestForm,RequestStatus
 from typing import Literal
 router = APIRouter()
 
-# Định nghĩa hàm này trước các endpoint
+
 async def get_current_employee(x_user_id: str = Header(...)):
     user = await engine.find_one(Employee, Employee.id == ObjectId(x_user_id))
     if not user:
@@ -125,7 +125,7 @@ async def get_approved_requests(
     date: datetime = Query(..., description="Ngày cần lấy đơn"),
     session: str = Query(..., pattern="^(sang|chieu)$", description="Buổi (sang hoặc chieu)"),
 ):
-    # Đặt khoảng thời gian từ đầu ngày đến cuối ngày
+  
     date_start = datetime(date.year, date.month, date.day, 0, 0, 0)
     date_end = date_start + timedelta(days=1)
 
@@ -137,7 +137,7 @@ async def get_approved_requests(
         ((RequestForm.type == "absent_per") | (RequestForm.type == "late"))
     )
 
-    # Log để kiểm tra
+    
     print(f" Approved requests on {date.date()} ({session}): {len(requests)} đơn")
     for r in requests:
         print(f"{r.employee_id} - {r.type} - {r.date}")
@@ -148,4 +148,5 @@ async def get_approved_requests(
             "type": req.type
         }
         for req in requests
+
     ]

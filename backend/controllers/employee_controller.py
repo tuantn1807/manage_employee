@@ -8,8 +8,7 @@ from datetime import datetime
 from utils.auth_utils import hash_password
 from models.department import Department
 async def create_employee(employee_data: Employee):
-    data = employee_data.dict()  # Chuyển sang dict để dễ thao tác
-
+    data = employee_data.dict()  
     if not data.get("join_date"):
         data["join_date"] = datetime.now()
 
@@ -70,3 +69,4 @@ async def update_employee(emp_id: str, data: dict) -> Employee:
 async def delete_employee(emp_id: str):
     emp = await get_employee_by_id(emp_id)
     await engine.delete(emp)
+
